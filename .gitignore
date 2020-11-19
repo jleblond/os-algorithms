@@ -4,3 +4,4 @@ venv
 disk_scheduling/__pycache__
 threads/__pycache__
 custom_helpers/__pycache__
+cpu_scheduling/__pycache__
