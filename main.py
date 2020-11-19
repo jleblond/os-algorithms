@@ -3,13 +3,13 @@ from threads import laws
 from cpu_scheduling import cpu_scheduler, visualizations
 
 processes = [
-    {'name': 'P1', 'burst_time': 10, 'priority':  3},
-    {'name': 'P2', 'burst_time': 1, 'priority':  1},
-    {'name': 'P3', 'burst_time': 2, 'priority':  4},
-    {'name': 'P4', 'burst_time': 1, 'priority':  5},
-    {'name': 'P5', 'burst_time': 5, 'priority':  2}
+    {'name': 'P1', 'burst_time': 20, 'arrival_time': 0},
+    {'name': 'P2', 'burst_time': 25, 'arrival_time': 15},
+    {'name': 'P3', 'burst_time': 10, 'arrival_time': 30},
+    {'name': 'P4', 'burst_time': 15, 'arrival_time': 45},
 ]
-process_scheduler = cpu_scheduler.CpuScheduler(processes)
+quantum = 10
+process_scheduler = cpu_scheduler.CpuScheduler(processes, quantum)
 process_scheduler.compute()
 
 
