@@ -157,7 +157,7 @@ def c_scan(requests_queue, start_at, lower_cylinder, upper_cylinder, is_moving_t
     return sum
 
 
-def look(v, start_at, is_moving_towards_0):
+def look(requests_queue, start_at, is_moving_towards_0):
     """
     LOOK
     Similar to SCAN
@@ -166,7 +166,43 @@ def look(v, start_at, is_moving_towards_0):
     :param requests_queue:
     :return: Total head movements
     """
+    print_helper.print_disk_scheduling_algorithm_info("LOOK", requests_queue, start_at, is_moving_towards_0)
 
+    sum = 0
+    requests_queue.append(start_at)
+    requests_queue.sort()
+    starting_index = requests_queue.index(start_at)
+    current_index = starting_index
+
+    if is_moving_towards_0:
+        while current_index > 0:
+            next_cylinder = requests_queue[current_index - 1]
+            sum += computation_helper.abs_diff_between_cylinders(requests_queue[current_index], next_cylinder)
+            current_index -= 1
+
+        sum += computation_helper.abs_diff_between_cylinders(requests_queue[current_index], requests_queue[starting_index+1])
+        current_index = starting_index + 1
+
+        while current_index < len(requests_queue)-1:
+            sum += computation_helper.abs_diff_between_cylinders(requests_queue[current_index], requests_queue[current_index + 1])
+            current_index += 1
+    else:
+        while current_index < len(requests_queue)-1:
+            next_cylinder = requests_queue[current_index+1]
+            sum += computation_helper.abs_diff_between_cylinders(requests_queue[current_index], next_cylinder)
+            current_index += 1
+
+        list_last_index = len(requests_queue) - 1
+        current_index = list_last_index
+        sum += computation_helper.abs_diff_between_cylinders(requests_queue[starting_index-1], requests_queue[current_index])
+        current_index = starting_index - 1
+
+        while current_index > 0:
+            sum += computation_helper.abs_diff_between_cylinders(requests_queue[current_index], requests_queue[current_index - 1])
+            current_index -= 1
+
+    print_helper.print_disk_scheduling_algorithm_sum(sum)
+    return sum
 
 def c_look(requests_queue, start_at, is_moving_towards_0):
     """

@@ -28,6 +28,8 @@ class Disk:
                         self.lower_cylinder, self.upper_cylinder,
                         self.is_moving_towards_0)
 
+        algorithms.look(self.requests_queue_copy(), self.head_cylinder, self.is_moving_towards_0)
+
         algorithms.c_look(self.requests_queue_copy(), self.head_cylinder, self.is_moving_towards_0)
 
 
