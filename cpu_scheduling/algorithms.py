@@ -11,11 +11,14 @@ def fcfs(processes_list):
     list_processes_scheduled = []
 
     sorted_processes_list = sort_processes_list_by_priority(processes_list)
+    x_pos = start_point
+
     for process in sorted_processes_list:
         process_information = {'name': process['name'],
-                               'coordinates': [(start_point, process['burst_time'])]
+                               'coordinates': [(x_pos, process['burst_time'])]
                                }
         list_processes_scheduled.append(process_information)
+        x_pos += process['burst_time']
 
     visualizations.plot_gantt_chart(processes_list, list_processes_scheduled)
 
