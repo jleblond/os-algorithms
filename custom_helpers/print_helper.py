@@ -1,8 +1,9 @@
 def print_cylinders_diff(first_cylinder, second_cylinder, diff):
     print("Cylinders: " + str(first_cylinder) + " to " + str(second_cylinder) + " -> |diff| = " + str(diff))
 
-def print_disk_scheduling_algorithm_info(algo_name, list, head_cylinder, is_moving_towards_0):
-    print("*** Computing " + str(algo_name) +"*** for " + str(list))
+def print_disk_scheduling_algorithm_info(algo_name, requests_queue, head_cylinder, is_moving_towards_0):
+    print()
+    print("*** Computing " + str(algo_name) +"*** for " + str(requests_queue))
     print('head points to cylinder: ' + str(head_cylinder) )
     if is_moving_towards_0 != None:
         print('is_moving_towards_0: ' + str(is_moving_towards_0))
