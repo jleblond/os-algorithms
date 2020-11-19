@@ -14,5 +14,7 @@ class CpuScheduler:
 
     def compute(self):
         algorithms.fcfs(self.processes_list)
+        algorithms.sjf(self.processes_list)
+        algorithms.priority(self.processes_list)
 
 

@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as plticker
 import os
 
-FACECOLORS = ['tab:blue', 'tab:orange', 'tab:green', 'tab:red', 'tab:indigo', 'tab:yellow']
+FACECOLORS = ['tab:blue', 'tab:orange', 'tab:green', 'tab:red', 'tab:grey', 'tab:yellow']
 
 current_path_str = os.path.dirname(__file__)
 SAVE_DIR = os.path.dirname(current_path_str)
@@ -11,7 +11,7 @@ if not os.path.isdir(RESULTS_DIR):
     os.makedirs(RESULTS_DIR)
 
 
-def plot_gantt_chart(processes_list, processes_scheduled_list):
+def plot_gantt_chart(algorithm_name, processes_list, processes_scheduled_list):
     fig, gnt = plt.subplots()
 
     y_lim = 15 + 10 * len(processes_list)
@@ -43,5 +43,5 @@ def plot_gantt_chart(processes_list, processes_scheduled_list):
         gnt.broken_barh(process_scheduled['coordinates'], (y_pos, 9), facecolors=FACECOLORS[index])
         y_pos -= 10
 
-    file_name = "fcfs.png"
+    file_name = algorithm_name + ".png"
     plt.savefig(RESULTS_DIR + file_name)
