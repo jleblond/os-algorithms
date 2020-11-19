@@ -71,7 +71,7 @@ def scan(requests_queue, start_at, lower_cylinder, upper_cylinder, is_moving_tow
             current_index -= 1
 
         current_index = starting_index + 1
-        sum += computation_helper.abs_diff_between_cylinders(requests_queue[current_index], 0)
+        sum += computation_helper.abs_diff_between_cylinders(requests_queue[current_index], lower_value)
         current_index += 1
 
         while current_index < len(requests_queue):
@@ -93,7 +93,7 @@ def scan(requests_queue, start_at, lower_cylinder, upper_cylinder, is_moving_tow
     print_helper.print_disk_scheduling_algorithm_sum(sum)
     return sum
 
-def c_scan(requests_queue):
+def c_scan(requests_queue, start_at, lower_cylinder, upper_cylinder, is_moving_towards_0):
     """
     C-SCAN
     The head moves from one end of the disk to the other, servicing requests as it goes. When it reaches the other end,
@@ -101,7 +101,60 @@ def c_scan(requests_queue):
     :param requests_queue:
     :return: Total head movements
     """
-    return
+    print_helper.print_disk_scheduling_algorithm_info("C-SCAN", requests_queue, start_at, is_moving_towards_0)
+
+    requests_queue.sort()
+    lower_value = lower_cylinder
+    upper_value = upper_cylinder
+
+    sum = 0
+    requests_queue.append(start_at)
+    requests_queue.sort()
+    starting_index = requests_queue.index(start_at)
+    current_index = starting_index
+
+    if is_moving_towards_0:
+        while current_index > 0:
+            next_cylinder = lower_value if current_index == 0 else requests_queue[current_index - 1]
+            sum += computation_helper.abs_diff_between_cylinders(requests_queue[current_index], next_cylinder)
+            current_index -= 1
+
+        # current index will be 0 here
+        sum += computation_helper.abs_diff_between_cylinders(requests_queue[current_index],
+                                                             lower_value)
+
+        list_last_index = len(requests_queue) - 1
+        sum += computation_helper.abs_diff_between_cylinders(lower_value,
+                                                             requests_queue[list_last_index])
+        current_index = list_last_index
+
+        while current_index > starting_index + 1:
+            sum += computation_helper.abs_diff_between_cylinders(requests_queue[current_index],
+                                                                 requests_queue[current_index - 1])
+            current_index -= 1
+    else:
+        while current_index < len(requests_queue) - 1:
+            next_cylinder = upper_value if current_index == (len(requests_queue) - 1) else requests_queue[
+                current_index + 1]
+            sum += computation_helper.abs_diff_between_cylinders(requests_queue[current_index], next_cylinder)
+            current_index += 1
+
+        # current index will be last one
+        sum += computation_helper.abs_diff_between_cylinders(requests_queue[current_index],
+                                                             upper_value)
+
+        sum += computation_helper.abs_diff_between_cylinders(lower_value, upper_value)
+
+        current_index = 0
+        sum += computation_helper.abs_diff_between_cylinders(lower_value, requests_queue[current_index])
+
+        while current_index < starting_index - 1:
+            sum += computation_helper.abs_diff_between_cylinders(requests_queue[current_index],
+                                                                 requests_queue[current_index + 1])
+            current_index += 1
+
+    print_helper.print_disk_scheduling_algorithm_sum(sum)
+    return sum
 
 
 def look(v, start_at, is_moving_towards_0):
