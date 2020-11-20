@@ -69,8 +69,8 @@ def shortest_remaining_time_first(processes_list, start_point = 0):
 
 
 def round_robin(processes_list, quantum, start_point = 0):
-    list_processes_scheduled = []
-    x_pos = start_point
+    processes_list_length = len(processes_list)
+    t = start_point
     sorted_processes_list = sort_processes_list_by(processes_list, 'arrival_time')
 
     total_time = start_point
@@ -80,36 +80,29 @@ def round_robin(processes_list, quantum, start_point = 0):
         process['coordinates'] = []
 
     p_index = 0
+    while t <= total_time:
+        filtered_list = list(filter(lambda p: (p['arrival_time'] <= t and p['burst_time_left'] > 0), sorted_processes_list))
+        if filtered_list != []:
+            executing_process = processes_list[p_index]
+            while(executing_process['name'] not in list(map(lambda p: p['name'], filtered_list))):
+                p_index = p_index + 1 if (p_index < processes_list_length-1) else 0
+                executing_process = processes_list[p_index]
 
-    while x_pos <= total_time:
-        executing_process = sorted_processes_list[p_index]
-        if x_pos == 40:
-            print(str(p_index))
-            print(str(executing_process))
+            if executing_process['burst_time_left'] > 0:
+                if executing_process['burst_time_left'] >= quantum:
+                    current_quantum = quantum
+                else:
+                    current_quantum = executing_process['burst_time_left']
 
-        if executing_process['burst_time_left'] > 0:
-            if executing_process['burst_time_left'] >= quantum:
-                current_quantum = quantum
+                process_to_compute = find_process_for(sorted_processes_list, 'name', executing_process['name'])
+                process_to_compute['coordinates'].append((t, current_quantum))
+                process_to_compute['burst_time_left'] -= current_quantum
+                t += current_quantum
+                p_index = p_index + 1 if (p_index < processes_list_length - 1) else 0
             else:
-                current_quantum = executing_process['burst_time_left']
-
-            sorted_processes_list[p_index]['coordinates'].append((x_pos, current_quantum))
-            #print(str(sorted_processes_list[p_index]))
-            sorted_processes_list[p_index]['burst_time_left'] -= current_quantum
-
-
-        x_pos += current_quantum
-
-        while True:
-            # go to next process
-            next_index = p_index + 1 if (p_index < len(sorted_processes_list) - 1) else 0
-
-            if sorted_processes_list[next_index]['arrival_time'] <= x_pos:
-                p_index = next_index
-
-            if (sorted_processes_list[next_index]['burst_time_left'] > 0):
-                break
-
+                t += 1
+        else:
+            break
 
     print(str(sorted_processes_list))
     printing.print_algorithm_results('ROUND-ROBIN', processes_list, sorted_processes_list)
