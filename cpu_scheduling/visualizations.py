@@ -13,6 +13,7 @@ if not os.path.isdir(RESULTS_DIR):
 
 def plot_gantt_chart(algorithm_name, processes_list, processes_scheduled_list):
     fig, gnt = plt.subplots()
+    gnt.set_title(str(algorithm_name))
 
     y_lim = 15 + 10 * len(processes_list)
     gnt.set_ylim(0, y_lim + 5)

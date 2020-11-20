@@ -1,5 +1,6 @@
 from . import printing
 
+# COMPUTING HELPERS
 
 def find_process_for(processes_list, key, value):
     return next(process for process in processes_list if process[key] == value)
@@ -25,7 +26,7 @@ def simple_cpu_scheduling_algorithm(algorithm_name, sorting_by_key, processes_li
 
     printing.print_algorithm_results(algorithm_name, processes_list, list_processes_scheduled)
 
-
+# MAIN ALGORITHMS
 
 def fcfs(processes_list, start_point = 0):
     simple_cpu_scheduling_algorithm('FCFS', 'arrival_time', processes_list, start_point)
@@ -72,7 +73,6 @@ def round_robin(processes_list, quantum, start_point = 0):
     x_pos = start_point
     sorted_processes_list = sort_processes_list_by(processes_list, 'arrival_time')
 
-
     total_time = start_point
     for process in sorted_processes_list:
         total_time += process['burst_time']
@@ -81,26 +81,28 @@ def round_robin(processes_list, quantum, start_point = 0):
 
     p_index = 0
 
-    while x_pos < total_time:
+    while x_pos <= total_time:
         executing_process = sorted_processes_list[p_index]
+        if x_pos == 40:
+            print(str(p_index))
+            print(str(executing_process))
+
         if executing_process['burst_time_left'] > 0:
-            if executing_process['burst_time_left'] > quantum:
+            if executing_process['burst_time_left'] >= quantum:
                 current_quantum = quantum
             else:
                 current_quantum = executing_process['burst_time_left']
 
             sorted_processes_list[p_index]['coordinates'].append((x_pos, current_quantum))
-            print(str(sorted_processes_list[p_index]))
+            #print(str(sorted_processes_list[p_index]))
             sorted_processes_list[p_index]['burst_time_left'] -= current_quantum
+
 
         x_pos += current_quantum
 
         while True:
             # go to next process
-            if p_index < len(sorted_processes_list) - 1:
-                next_index = p_index + 1
-            else:
-                next_index = 0
+            next_index = p_index + 1 if (p_index < len(sorted_processes_list) - 1) else 0
 
             if sorted_processes_list[next_index]['arrival_time'] <= x_pos:
                 p_index = next_index
@@ -110,4 +112,4 @@ def round_robin(processes_list, quantum, start_point = 0):
 
 
     print(str(sorted_processes_list))
-    #printing.print_algorithm_results('ROUND-ROBIN', processes_list, list_processes_scheduled)
+    printing.print_algorithm_results('ROUND-ROBIN', processes_list, sorted_processes_list)

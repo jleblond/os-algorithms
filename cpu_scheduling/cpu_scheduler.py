@@ -11,11 +11,11 @@ class CpuScheduler:
     #     self.processes_list.append(process)
 
     def compute(self):
-        algorithms.shortest_remaining_time_first(self.processes_list)
         # algorithms.fcfs(self.processes_list)
         # algorithms.sjf(self.processes_list)
         # algorithms.priority(self.processes_list)
-        # if self.quantum != None:
-        #     algorithms.round_robin(self.processes_list, self.quantum)
+        # algorithms.shortest_remaining_time_first(self.processes_list)
+        if self.quantum != None:
+            algorithms.round_robin(self.processes_list, self.quantum)
 
 
