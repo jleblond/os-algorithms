@@ -6,8 +6,8 @@ def print_algorithm_results(algorithm_name, processes_list, list_processes_sched
 
     print('Results: ')
     print(str(list_processes_scheduled))
-    sum_waiting_times = sum(list(map(lambda p: p['waiting_time'], list_processes_scheduled)))
-    average_waiting_time = sum_waiting_times/len(processes_list)
-    print("Average waiting time is: " + str(average_waiting_time))
+    # sum_waiting_times = sum(list(map(lambda p: p['waiting_time'], list_processes_scheduled)))
+    # average_waiting_time = sum_waiting_times/len(processes_list)
+    # print("Average waiting time is: " + str(average_waiting_time))
 
     visualizations.plot_gantt_chart(algorithm_name, processes_list, list_processes_scheduled)

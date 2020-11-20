@@ -36,6 +36,36 @@ def sjf(processes_list, start_point = 0):
 def priority(processes_list, start_point = 0):
     simple_cpu_scheduling_algorithm('PRIORITY', 'priority', processes_list, start_point)
 
+def shortest_remaining_time_first(processes_list, start_point = 0):
+    t = start_point
+    sorted_processes_list = sort_processes_list_by(processes_list.copy(), 'arrival_time')
+    list_processes_computated = sorted_processes_list.copy()
+
+    total_time = start_point
+    for process in list_processes_computated:
+        total_time += process['burst_time']
+        process['burst_time_left'] = process['burst_time']
+        process['coordinates'] = []
+
+    p_index = 0
+    while t <= total_time:
+        filtered_processes = list(filter(lambda p: (p['arrival_time'] <= t and p['burst_time_left'] > 0) , list_processes_computated))
+        list_processes_copy = sorted(filtered_processes, key=lambda p: p['burst_time_left'], reverse=False)
+        if list_processes_copy != []:
+            executing_process = list_processes_copy[0]
+
+            if executing_process['burst_time_left'] == 0:
+                list_processes_copy.remove(executing_process)
+            if executing_process['arrival_time'] <= t and executing_process['burst_time_left'] > 0:
+                process_from_computated_list = find_process_for(list_processes_computated, 'name', list_processes_copy[p_index]['name'])
+                process_from_computated_list['coordinates'].append((t, 1))
+                list_processes_copy[p_index]['burst_time_left'] -= 1
+
+        t += 1
+
+    printing.print_algorithm_results('Shortest-remaining-time-First', processes_list, list_processes_computated)
+
+
 
 def round_robin(processes_list, quantum, start_point = 0):
     list_processes_scheduled = []

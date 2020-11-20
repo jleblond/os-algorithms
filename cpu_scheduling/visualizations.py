@@ -33,7 +33,7 @@ def plot_gantt_chart(algorithm_name, processes_list, processes_scheduled_list):
     gnt.set_yticks(y_ticks)
     gnt.set_yticklabels(y_labels)
 
-    loc = plticker.MultipleLocator(base=2)  # this locator puts ticks at regular intervals
+    loc = plticker.MultipleLocator(base=5)  # this locator puts ticks at regular intervals
     gnt.xaxis.set_major_locator(loc)
 
     gnt.grid(True) # Setting graph attribute
