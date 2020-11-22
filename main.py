@@ -2,13 +2,24 @@ from disk_scheduling import disk
 from threads import laws
 from cpu_scheduling import cpu_scheduler, visualizations
 
+# processes = [
+#     {'name': 'P1', 'burst_time': 20, 'arrival_time': 0},
+#     {'name': 'P2', 'burst_time': 25, 'arrival_time': 15},
+#     {'name': 'P3', 'burst_time': 10, 'arrival_time': 30},
+#     {'name': 'P4', 'burst_time': 15, 'arrival_time': 45},
+# ]
+# quantum = 10
+# process_scheduler = cpu_scheduler.CpuScheduler(processes, quantum)
+# process_scheduler.compute()
+
 processes = [
-    {'name': 'P1', 'burst_time': 20, 'arrival_time': 0},
-    {'name': 'P2', 'burst_time': 25, 'arrival_time': 15},
-    {'name': 'P3', 'burst_time': 10, 'arrival_time': 30},
-    {'name': 'P4', 'burst_time': 15, 'arrival_time': 45},
+    {'name': 'P0', 'burst_time': 20, 'arrival_time': 0, 'priority': 3},
+    {'name': 'P1', 'burst_time': 15, 'arrival_time': 1, 'priority': 1},
+    {'name': 'P2', 'burst_time': 21, 'arrival_time': 2, 'priority': 3},
+    {'name': 'P3', 'burst_time': 7, 'arrival_time': 3, 'priority': 5},
+    {'name': 'P4', 'burst_time': 12, 'arrival_time': 4, 'priority': 2},
 ]
-quantum = 10
+quantum = 3
 process_scheduler = cpu_scheduler.CpuScheduler(processes, quantum)
 process_scheduler.compute()
 

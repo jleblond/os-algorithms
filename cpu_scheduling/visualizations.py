@@ -40,7 +40,9 @@ def plot_gantt_chart(algorithm_name, processes_list, processes_scheduled_list):
     gnt.grid(True) # Setting graph attribute
 
     y_pos = 10 * len(processes_list)
-    for index, process_scheduled in enumerate(processes_scheduled_list):
+    for process_scheduled in processes_scheduled_list:
+        process_from_processes_list = next(process for process in processes_list if process['name'] == process_scheduled['name'])
+        index = processes_list.index(process_from_processes_list)
         gnt.broken_barh(process_scheduled['coordinates'], (y_pos, 9), facecolors=FACECOLORS[index])
         y_pos -= 10
 
