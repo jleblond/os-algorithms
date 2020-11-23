@@ -1,3 +1,5 @@
+import math
+
 from . import printing
 
 # COMPUTING HELPERS
@@ -17,8 +19,11 @@ def simple_cpu_scheduling_algorithm(algorithm_name, sorting_by_key, processes_li
         sorted_processes_list = sort_processes_list_by(processes_list, sorting_by_key)
 
     for process in sorted_processes_list:
+        wait_time = x_pos - process['arrival_time']
+        print(str(process['name']) +  '  --- x_pos: '+ str(x_pos) + ' / wait_time: ' + str(wait_time))
         process_information = {'name': process['name'],
-                               'waiting_time': x_pos,
+                               'first_execution_time': x_pos,
+                               'waiting_time': wait_time,
                                'coordinates': [(x_pos, process['burst_time'])]
                                }
         list_processes_scheduled.append(process_information)
@@ -103,6 +108,17 @@ def round_robin(processes_list, quantum, start_point = 0):
                 t += 1
         else:
             break
+
+    for process in sorted_processes_list:
+        coor_end_x = 0  # start - for each process
+        sum_waiting_time = 0
+        for coordinates in process['coordinates']:
+            coor_start_x = coordinates[0]
+            sum_waiting_time += math.fabs(coor_end_x - coor_start_x)
+            coor_end_x = sum(list(coordinates))
+        process['waiting_time'] = sum_waiting_time
+
+
 
     print(str(sorted_processes_list))
     printing.print_algorithm_results('ROUND-ROBIN', processes_list, sorted_processes_list)
