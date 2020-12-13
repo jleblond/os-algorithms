@@ -20,10 +20,12 @@ def simple_cpu_scheduling_algorithm(algorithm_name, sorting_by_key, processes_li
 
     for process in sorted_processes_list:
         wait_time = x_pos - process['arrival_time']
-        print(str(process['name']) +  '  --- x_pos: '+ str(x_pos) + ' / wait_time: ' + str(wait_time))
+        turnaround_time = (x_pos + process['burst_time']) - process['arrival_time']
+        # print(str(process['name']) +  '  --- x_pos: '+ str(x_pos) + ' / wait_time: ' + str(wait_time))
         process_information = {'name': process['name'],
                                'first_execution_time': x_pos,
                                'waiting_time': wait_time,
+                               'turnaround_time': turnaround_time,
                                'coordinates': [(x_pos, process['burst_time'])]
                                }
         list_processes_scheduled.append(process_information)
@@ -68,6 +70,17 @@ def shortest_remaining_time_first(processes_list, start_point = 0):
                 list_processes_copy[p_index]['burst_time_left'] -= 1
 
         t += 1
+
+    for process in list_processes_computated:
+        # coor_end_x = 0  # start - for each process
+        # sum_waiting_time = 0
+        # for coordinates in process['coordinates']:
+        #     coor_start_x = coordinates[0]
+        #     sum_waiting_time += math.fabs(coor_end_x - coor_start_x)
+        #     coor_end_x = sum(list(coordinates))
+        # process['waiting_time'] = sum_waiting_time
+
+        process['turnaround_time'] = sum(list(process['coordinates'][-1])) - process['arrival_time']
 
     printing.print_algorithm_results('Shortest-remaining-time-First', processes_list, list_processes_computated)
 
@@ -118,7 +131,7 @@ def round_robin(processes_list, quantum, start_point = 0):
             coor_end_x = sum(list(coordinates))
         process['waiting_time'] = sum_waiting_time
 
+        process['turnaround_time'] = sum(list(process['coordinates'][-1])) - process['arrival_time']
 
 
-    print(str(sorted_processes_list))
     printing.print_algorithm_results('ROUND-ROBIN', processes_list, sorted_processes_list)
