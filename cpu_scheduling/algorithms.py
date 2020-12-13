@@ -36,13 +36,13 @@ def simple_cpu_scheduling_algorithm(algorithm_name, sorting_by_key, processes_li
 # MAIN ALGORITHMS
 
 def fcfs(processes_list, start_point = 0):
-    simple_cpu_scheduling_algorithm('FCFS', 'arrival_time', processes_list, start_point)
+    simple_cpu_scheduling_algorithm('FCFS_non-preemptive', 'arrival_time', processes_list, start_point)
 
 def sjf(processes_list, start_point = 0):
-    simple_cpu_scheduling_algorithm('SJF', 'burst_time', processes_list, start_point)
+    simple_cpu_scheduling_algorithm('SJF_non-preemptive', 'burst_time', processes_list, start_point)
 
 def priority(processes_list, start_point = 0):
-    simple_cpu_scheduling_algorithm('PRIORITY', 'priority', processes_list, start_point)
+    simple_cpu_scheduling_algorithm('PRIORITY_non-preemptive', 'priority', processes_list, start_point)
 
 def shortest_remaining_time_first(processes_list, start_point = 0):
     t = start_point
@@ -82,7 +82,7 @@ def shortest_remaining_time_first(processes_list, start_point = 0):
 
         process['turnaround_time'] = sum(list(process['coordinates'][-1])) - process['arrival_time']
 
-    printing.print_algorithm_results('Shortest-remaining-time-First', processes_list, list_processes_computated)
+    printing.print_algorithm_results('Shortest-remaining-time-first_AKA-preemptive-sjf', processes_list, list_processes_computated)
 
 
 
@@ -134,4 +134,4 @@ def round_robin(processes_list, quantum, start_point = 0):
         process['turnaround_time'] = sum(list(process['coordinates'][-1])) - process['arrival_time']
 
 
-    printing.print_algorithm_results('ROUND-ROBIN', processes_list, sorted_processes_list)
+    printing.print_algorithm_results('ROUND-ROBIN_preemptive', processes_list, sorted_processes_list)
