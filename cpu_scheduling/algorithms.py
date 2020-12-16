@@ -135,3 +135,34 @@ def round_robin(processes_list, quantum, start_point = 0):
 
 
     printing.print_algorithm_results('ROUND-ROBIN_preemptive', processes_list, sorted_processes_list)
+
+
+def custom_input():
+    data = [
+        {'name': 'P1', 'burst_time': 23, 'arrival_time': 0, 'burst_time_left': 0,
+         'coordinates': [(0, 4), (16, 4), (24, 2), (39, 4), (47, 4), (57, 4), (61, 1)],
+        },
+        {'name': 'P2', 'burst_time': 12, 'arrival_time': 3, 'burst_time_left': 0,
+         'coordinates': [(4, 4), (20, 1), (31, 4), (43, 3)],
+        },
+        {'name': 'P3', 'burst_time': 15, 'arrival_time': 1, 'burst_time_left': 0,
+         'coordinates': [(8, 4), (21, 3), (35, 4), (46, 4)],
+        },
+        {'name': 'P4', 'burst_time': 8, 'arrival_time': 2, 'burst_time_left': 0,
+         'coordinates': [(12, 4), (53, 4)],
+        }
+    ]
+
+    # Note: calculation of waiting time and turnaround times to be verified!
+    for process in data:
+        coor_end_x = 0  # start - for each process
+        sum_waiting_time = 0
+        for coordinates in process['coordinates']:
+            coor_start_x = coordinates[0]
+            sum_waiting_time += math.fabs(coor_end_x - coor_start_x)
+            coor_end_x = sum(list(coordinates))
+        process['waiting_time'] = sum_waiting_time
+
+        process['turnaround_time'] = sum(list(process['coordinates'][-1])) - process['arrival_time']
+
+    printing.print_algorithm_results('CUSTOM', data, data)
